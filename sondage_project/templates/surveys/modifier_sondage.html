@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Modifier — {{ sondage.titre }}{% endblock %}
+
+{% block content %}
+<div class="container py-4" style="max-width:720px">
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i></a>
+    <h2 class="fw-bold mb-0">Modifier : {{ sondage.titre }}</h2>
+  </div>
+  <div class="card">
+    <div class="card-body p-4">
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Titre</label>
+          {{ form.titre }}
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Description</label>
+          {{ form.description }}
+        </div>
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Date de début</label>
+            {{ form.date_debut }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Date de fin</label>
+            {{ form.date_fin }}
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Mot de passe</label>
+          {{ form.mode_passe }}
+        </div>
+        <div class="card bg-light border-0 p-3 mb-4">
+          <div class="form-check mb-2">
+            {{ form.est_actif }}
+            <label class="form-check-label" for="{{ form.est_actif.id_for_label }}">Sondage actif</label>
+          </div>
+          <div class="form-check mb-2">
+            {{ form.est_prive }}
+            <label class="form-check-label" for="{{ form.est_prive.id_for_label }}">Sondage privé</label>
+          </div>
+          <div class="form-check">
+            {{ form.une_seule_reponse }}
+            <label class="form-check-label" for="{{ form.une_seule_reponse.id_for_label }}">Une seule réponse par participant</label>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary px-4"><i class="bi bi-save me-2"></i>Enregistrer</button>
+          <a href="{% url 'editer_questions' sondage.slug %}" class="btn btn-outline-primary">Gérer les questions</a>
+          <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">Annuler</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Accès protégé — SondageApp{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="max-width:420px">
+  <div class="card">
+    <div class="card-body p-4 text-center">
+      <i class="bi bi-lock-fill text-warning display-4 mb-3 d-block"></i>
+      <h4 class="fw-bold mb-1">Sondage protégé</h4>
+      <p class="text-muted mb-4">« {{ sondage.titre }} » nécessite un mot de passe.</p>
+      <form method="post" class="text-start">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Mot de passe</label>
+          {{ form.mot_de_passe }}
+        </div>
+        <button type="submit" class="btn btn-primary w-100">
+          <i class="bi bi-unlock me-2"></i>Accéder au sondage
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
