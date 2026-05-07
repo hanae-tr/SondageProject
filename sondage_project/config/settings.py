@@ -21,6 +21,8 @@ INSTALLED_APPS = [
     'accounts',
     'surveys',
     'responses',
+    'rest_framework',   
+    'api',         
 ]
 
 MIDDLEWARE = [
@@ -108,3 +110,13 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 LOGIN_URL = '/accounts/connexion/'
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+}

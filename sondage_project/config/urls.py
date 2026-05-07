@@ -11,4 +11,5 @@ urlpatterns = [
     path('sondages/', include('surveys.urls')),
     path('reponses/', include('responses.urls')),
     path('dashboard/', include('surveys.urls_dashboard')),
+    path('api/', include('api.urls')), 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
