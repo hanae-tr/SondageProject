@@ -19,10 +19,6 @@ except ImportError:
 # ─── Helpers ──────────────────────────────────────────────────────────────────
 
 def get_ou_creer_anonyme(request):
-    """
-    Récupère ou crée un Anonyme via le token de session.
-    L'anonyme hérite de Participant (héritage multi-table).
-    """
     token = request.session.get('anonyme_token')
     if token:
         try:
@@ -37,17 +33,12 @@ def get_ou_creer_anonyme(request):
 
 
 def get_participant(request):
-    """
-    Retourne le Participant (Utilisateur ou Anonyme) correspondant à la requête.
-    Toujours un objet Participant — jamais NULL.
-    """
     if request.user.is_authenticated:
-        return request.user  # Utilisateur hérite de Participant
+        return request.user
     return get_ou_creer_anonyme(request)
 
 
 def a_deja_repondu(sondage, participant):
-    """Vérifie si ce participant a déjà soumis une réponse complète à ce sondage"""
     return Reponse.objects.filter(
         sondage=sondage,
         participant=participant,
@@ -71,14 +62,12 @@ def repondre_sondage(request, slug):
     questions = sondage.question_set.prefetch_related('choix_set').order_by('ordre')
 
     if request.method == 'POST':
-        # Créer la réponse principale
         reponse = Reponse.objects.create(
             sondage=sondage,
             participant=participant,
             est_complete=False,
         )
 
-        # Enregistrer les détails question par question
         for question in questions:
             detail = ReponseDetail.objects.create(
                 reponse=reponse,
@@ -96,7 +85,6 @@ def repondre_sondage(request, slug):
                 detail.valeur_texte = valeur
                 detail.save()
 
-        # Marquer comme complète
         reponse.est_complete = reponse.est_complete_check()
         reponse.save()
 
@@ -119,7 +107,6 @@ def remerciement(request, slug):
 def resultats_sondage(request, slug):
     sondage = get_object_or_404(Sondage, slug=slug)
 
-    # Seul le créateur peut voir les résultats détaillés
     if request.user != sondage.createur and not request.user.is_staff:
         messages.error(request, "Accès refusé aux résultats.")
         return redirect('sondage_detail', slug=slug)
@@ -139,7 +126,10 @@ def resultats_sondage(request, slug):
         if question.type_question in [Question.TYPE_CHOIX_UNIQUE, Question.TYPE_CHOIX_MULTIPLE]:
             choix_stats = []
             for choix in question.obtenir_choix():
-                count = choix.reponsedetail_set.count()
+                # ✅ FIX : uniquement les réponses complètes
+                count = choix.reponsedetail_set.filter(
+                    reponse__est_complete=True
+                ).count()
                 choix_stats.append({
                     'label': choix.texte,
                     'count': count,
@@ -178,7 +168,6 @@ def resultats_sondage(request, slug):
 
 
 def api_stats_question(request, question_id):
-    """Endpoint JSON pour Chart.js — données en temps réel"""
     question = get_object_or_404(Question, id=question_id)
 
     if request.user != question.sondage.createur:
@@ -206,7 +195,7 @@ def export_csv(request, slug):
     sondage = get_object_or_404(Sondage, slug=slug, createur=request.user)
     response = HttpResponse(content_type='text/csv; charset=utf-8')
     response['Content-Disposition'] = f'attachment; filename="sondage_{sondage.slug}.csv"'
-    response.write('\ufeff')  # BOM pour Excel
+    response.write('\ufeff')
 
     writer = csv.writer(response)
     questions = list(sondage.question_set.order_by('ordre'))
@@ -247,7 +236,6 @@ def export_excel(request, slug):
     entetes = ['Date', 'Participant'] + [q.texte for q in questions]
     ws.append(entetes)
 
-    # Style des en-têtes
     from openpyxl.styles import Font, PatternFill
     for cell in ws[1]:
         cell.font = Font(bold=True, color='FFFFFF')
@@ -265,7 +253,6 @@ def export_excel(request, slug):
             ligne.append(detail.obtenir_affichage() if detail else '—')
         ws.append(ligne)
 
-    # Ajuster la largeur des colonnes
     for col in ws.columns:
         max_len = max(len(str(cell.value or '')) for cell in col)
         ws.column_dimensions[col[0].column_letter].width = min(max_len + 4, 50)
