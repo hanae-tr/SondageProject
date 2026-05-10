@@ -1,6 +1,6 @@
 /* SondageApp — styles personnalisés */
 
-:root {
+/*:root {
   --primary: #4F46E5;
   --primary-light: #818CF8;
   --secondary: #0EA5E9;
@@ -8,6 +8,15 @@
   --dark: #1E1B4B;
   --success: #10B981;
   --danger: #EF4444;
+}*/
+
+/* APRÈS */
+:root {
+  --primary: #1a1a1a;
+  --primary-light: #444444;
+  --secondary: #C0392B;
+  --accent: #C0392B;
+  --dark: #000000;
 }
 
 /* Navbar */
@@ -39,8 +48,14 @@
 .question-card:hover { border-left-color: var(--primary); transform: translateX(3px); }
 
 /* Hero section */
-.hero {
+/*.hero {
   background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 60%, var(--secondary) 100%);
+  color: white;
+  padding: 5rem 0;
+}*/
+/* APRÈS */
+.hero {
+  background: #1a1a1a;
   color: white;
   padding: 5rem 0;
 }

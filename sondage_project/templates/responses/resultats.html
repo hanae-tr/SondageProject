@@ -4,13 +4,15 @@
 {% block extra_css %}
 <style>
 .kpi-card { border-radius:16px; padding:1.2rem; color:white; text-align:center; }
-.kpi-violet { background:linear-gradient(135deg,#4F46E5,#818CF8); }
-.kpi-bleu   { background:linear-gradient(135deg,#0EA5E9,#38BDF8); }
-.kpi-vert   { background:linear-gradient(135deg,#10B981,#34D399); }
-.kpi-orange { background:linear-gradient(135deg,#F59E0B,#FCD34D); }
+
+.kpi-violet { background:linear-gradient(135deg,#1a1a1a,#333333); }
+.kpi-bleu   { background:linear-gradient(135deg,#C0392B,#E74C3C); }
+.kpi-vert   { background:linear-gradient(135deg,#2c2c2c,#444444); }
+.kpi-orange { background:linear-gradient(135deg,#922B21,#C0392B); }
 .chart-wrapper { position:relative; height:260px; }
 .chart-type-btn { border-radius:8px; font-size:12px; padding:4px 12px; cursor:pointer; }
-.chart-type-btn.active { background:#4F46E5 !important; color:white !important; border-color:#4F46E5 !important; }
+/*.chart-type-btn.active { background:#4F46E5 !important; color:white !important; border-color:#4F46E5 !important; }*/
+.chart-type-btn.active { background:#C0392B !important; color:white !important; border-color:#C0392B !important; }
 .barre-prog { height:14px; border-radius:20px; background:#EEF2FF; overflow:hidden; margin-top:6px; width:100%; display:block; }
 .barre-fill { display:block; height:14px; border-radius:20px; background:linear-gradient(90deg,#4F46E5,#818CF8); transition:width 0.8s ease; min-width:2px; }
 .card-question { border-left:4px solid #4F46E5; }
@@ -112,7 +114,7 @@
         <div class="col-md-6"><div class="chart-wrapper"><canvas id="chart-q{{ stat.question.id }}"></canvas></div></div>
         <div class="col-md-6 text-center mt-3 mt-md-0">
           <div class="gauge-container mb-2"><canvas id="gauge-q{{ stat.question.id }}" width="160" height="160"></canvas></div>
-          <div class="fs-1 fw-bold" style="color:#F59E0B">{{ stat.moyenne }}</div>
+          <div class="fs-1 fw-bold" style="color:#C0392B">{{ stat.moyenne }}</div>
           <div class="text-muted small mb-1">Moyenne / 5</div>
           <div class="fs-4">
             {% for i in "12345" %}{% if forloop.counter <= stat.moyenne %}<i class="bi bi-star-fill text-warning"></i>{% else %}<i class="bi bi-star text-muted"></i>{% endif %}{% endfor %}
@@ -137,8 +139,10 @@
 
 {% block extra_js %}
 <script>
-var COLORS = ['#4F46E5','#0EA5E9','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899','#F97316'];
-var ECHELLE_COLORS = ['#EF4444','#F97316','#F59E0B','#84CC16','#10B981'];
+/*var COLORS = ['#4F46E5','#0EA5E9','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899','#F97316'];*/
+/* APRÈS */
+var COLORS = ['#C0392B','#922B21','#333333','#555555','#E74C3C','#7B241C','#1a1a1a','#444444'];
+var ECHELLE_COLORS = ['#7B241C','#922B21','#C0392B','#E74C3C','#1a1a1a'];
 var charts = {};
 var chartData = {};
 
@@ -266,9 +270,9 @@ function drawGauge(key, moyenne) {
   ctx.stroke();
 
   var grad = ctx.createLinearGradient(0,0,160,0);
-  grad.addColorStop(0,   '#EF4444');
-  grad.addColorStop(0.5, '#F59E0B');
-  grad.addColorStop(1,   '#10B981');
+grad.addColorStop(0,   '#7B241C');
+grad.addColorStop(0.5, '#C0392B');
+grad.addColorStop(1,   '#1a1a1a');
 
   ctx.beginPath();
   ctx.arc(cx, cy, r, start, angle);
@@ -305,8 +309,11 @@ function dessinerBarres() {
     if (pct > 0) {
       var fillW = Math.max(w * pct / 100, 8);
       var grad  = ctx.createLinearGradient(0, 0, fillW, 0);
-      grad.addColorStop(0, '#4F46E5');
-      grad.addColorStop(1, '#818CF8');
+      /*grad.addColorStop(0, '#4F46E5');
+      grad.addColorStop(1, '#818CF8');/*
+      /* APRÈS */
+grad.addColorStop(0, '#C0392B');
+grad.addColorStop(1, '#E74C3C');
       ctx.fillStyle = grad;
       ctx.beginPath();
       ctx.roundRect(0, 0, fillW, 14, 7);

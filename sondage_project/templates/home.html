@@ -7,18 +7,26 @@
   <div class="container text-center">
     <h1 class="display-4 fw-bold mb-3">
       <i class="bi bi-bar-chart-fill me-3"></i>Créez des sondages<br>
-      <span style="color: #F59E0B;">puissants et interactifs</span>
+      <!--<span style="color: #F59E0B;">puissants et interactifs</span> -->
+      <span style="color: #C0392B;">puissants et interactifs</span>
     </h1>
     <p class="lead mb-4 opacity-75">Concevez, diffusez et analysez vos sondages en quelques minutes.<br>
       Accessible à tous — avec ou sans compte.</p>
     <div class="d-flex gap-3 justify-content-center flex-wrap">
       {% if user.is_authenticated %}
-      <a href="{% url 'creer_sondage' %}" class="btn btn-warning btn-lg px-4">
+      <!--<a href="{% url 'creer_sondage' %}" class="btn btn-warning btn-lg px-4">
         <i class="bi bi-plus-circle me-2"></i>Créer un sondage
       </a>
       <a href="{% url 'dashboard' %}" class="btn btn-outline-light btn-lg px-4">
         <i class="bi bi-speedometer2 me-2"></i>Mon dashboard
-      </a>
+      </a>-->
+      <!-- APRÈS -->
+<a href="{% url 'creer_sondage' %}" class="btn btn-lg px-4" style="background:#C0392B; color:white; border:none;">
+  <i class="bi bi-plus-circle me-2"></i>Créer un sondage
+</a>
+<a href="{% url 'dashboard' %}" class="btn btn-lg px-4" style="background:white; color:#1a1a1a; border:2px solid white;">
+  <i class="bi bi-speedometer2 me-2"></i>Mon dashboard
+</a>
       {% else %}
       <a href="{% url 'inscription' %}" class="btn btn-warning btn-lg px-4">
         <i class="bi bi-person-plus me-2"></i>Commencer gratuitement
