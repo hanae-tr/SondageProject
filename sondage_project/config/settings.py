@@ -79,6 +79,7 @@ DATABASES = {
         'OPTIONS': {
             'charset': 'utf8',        # ← changer utf8mb4 en utf8
         },
+        
     }
 }
 AUTH_PASSWORD_VALIDATORS = [

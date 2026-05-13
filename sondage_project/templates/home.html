@@ -13,7 +13,7 @@
     <p class="lead mb-4 opacity-75">Concevez, diffusez et analysez vos sondages en quelques minutes.<br>
       Accessible à tous — avec ou sans compte.</p>
     <div class="d-flex gap-3 justify-content-center flex-wrap">
-      {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
       <!--<a href="{% url 'creer_sondage' %}" class="btn btn-warning btn-lg px-4">
         <i class="bi bi-plus-circle me-2"></i>Créer un sondage
       </a>
@@ -21,19 +21,21 @@
         <i class="bi bi-speedometer2 me-2"></i>Mon dashboard
       </a>-->
       <!-- APRÈS -->
-<a href="{% url 'creer_sondage' %}" class="btn btn-lg px-4" style="background:#C0392B; color:white; border:none;">
+<!-- APRÈS -->
+<a href="{% url 'creer_sondage' %}" class="btn btn-lg px-4 fw-bold" style="background:#C0392B; color:white; border:none; border-radius:8px;">
   <i class="bi bi-plus-circle me-2"></i>Créer un sondage
 </a>
-<a href="{% url 'dashboard' %}" class="btn btn-lg px-4" style="background:white; color:#1a1a1a; border:2px solid white;">
+<a href="{% url 'dashboard' %}" class="btn btn-lg px-4 fw-bold" style="background:white; color:#1a1a1a; border:none; border-radius:8px;">
   <i class="bi bi-speedometer2 me-2"></i>Mon dashboard
 </a>
       {% else %}
-      <a href="{% url 'inscription' %}" class="btn btn-warning btn-lg px-4">
-        <i class="bi bi-person-plus me-2"></i>Commencer gratuitement
-      </a>
-      <a href="{% url 'liste_publique' %}" class="btn btn-outline-light btn-lg px-4">
-        <i class="bi bi-eye me-2"></i>Voir les sondages
-      </a>
+      <!-- APRÈS -->
+<a href="{% url 'inscription' %}" class="btn btn-lg px-4 fw-bold" style="background:#C0392B; color:white; border:none; border-radius:8px;">
+  <i class="bi bi-person-plus me-2"></i>Commencer gratuitement
+</a>
+<a href="{% url 'liste_publique' %}" class="btn btn-lg px-4 fw-bold" style="background:white; color:#1a1a1a; border:none; border-radius:8px;">
+  <i class="bi bi-eye me-2"></i>Voir les sondages
+</a>
       {% endif %}
     </div>
   </div>
