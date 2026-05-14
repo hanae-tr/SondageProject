@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import InscriptionForm, ConnexionForm, ProfilForm
+from responses.models import Reponse
 
 
 def inscription(request):
@@ -55,7 +56,7 @@ def profil(request):
 
     ctx = {
         'form': form,
-        'sondages_crees':   request.user.sondages_crees.all().order_by('-date_creation')[:5],
-        'reponses_donnees': request.user.get_reponses_donnees().order_by('-date_envoi')[:5],
+        'sondages_crees': request.user.sondages_crees.all().order_by('-date_creation')[:5],
+        'reponses_donnees': Reponse.objects.filter(participant__utilisateur=request.user).order_by('-date_envoi')[:5],
     }
     return render(request, 'accounts/profil.html', ctx)

@@ -10,12 +10,66 @@
       <h2 class="fw-bold mb-0">Tableau de bord</h2>
       <p class="text-muted mb-0">Bonjour, <strong>{{ user.username }}</strong> — {{ user.get_role_display }}</p>
     </div>
+    {% if user.role != 'participant' %}
     <a href="{% url 'creer_sondage' %}" class="btn btn-primary px-4">
       <i class="bi bi-plus-circle me-2"></i>Nouveau sondage
     </a>
+    {% endif %}
   </div>
 
-  <!-- Statistiques globales -->
+  {% if user.role == 'participant' %}
+  <!-- Vue Participant -->
+  <div class="card">
+    <div class="card-header bg-white py-3">
+      <h5 class="mb-0 fw-bold"><i class="bi bi-list-ul me-2 text-primary"></i>Sondages disponibles</h5>
+    </div>
+    <div class="card-body p-0">
+      {% if sondages_publics %}
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Titre</th>
+              <th>Statut</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sondage in sondages_publics %}
+            <tr>
+              <td class="fw-semibold">{{ sondage.titre }}</td>
+              <td>
+                {% if sondage.est_ouvert %}
+                  <span class="badge badge-ouvert">Ouvert</span>
+                {% else %}
+                  <span class="badge badge-ferme">Fermé</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if sondage.est_ouvert %}
+                <a href="{% url 'repondre_sondage' sondage.slug %}" class="btn btn-sm btn-primary">
+                  <i class="bi bi-pencil-square me-1"></i>Répondre
+                </a>
+                {% else %}
+                <span class="text-muted small">Fermé</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="text-center py-5 text-muted">
+        <i class="bi bi-inbox display-4 d-block mb-3"></i>
+        <p>Aucun sondage disponible pour le moment.</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% else %}
+  <!-- Vue Créateur -->
   <div class="row g-3 mb-4">
     <div class="col-md-4">
       <div class="card stat-card p-4">
@@ -52,7 +106,6 @@
     </div>
   </div>
 
-  <!-- Liste des sondages -->
   <div class="card">
     <div class="card-header bg-white py-3">
       <h5 class="mb-0 fw-bold"><i class="bi bi-list-ul me-2 text-primary"></i>Mes sondages</h5>
@@ -65,54 +118,50 @@
             <tr>
               <th>Titre</th>
               <th>Statut</th>
-           
               <th>Réponses</th>
               <th>Créé le</th>
-              <th>Lien de partage</th> 
+              <th style="width:220px;">Lien de partage</th>
               <th class="text-end">Actions</th>
             </tr>
           </thead>
           <tbody>
             {% for sondage in sondages %}
-<tr>
-  <td>
-    <a href="{% url 'sondage_detail' sondage.slug %}" class="fw-semibold text-decoration-none text-dark">
-      {{ sondage.titre }}
-    </a>
-  </td>
-  <td>
-    {% if sondage.est_ouvert %}
-      <span class="badge badge-ouvert">Ouvert</span>
-    {% else %}
-      <span class="badge badge-ferme">Fermé</span>
-    {% endif %}
-  </td>
-  <td>{{ sondage.reponse_set.count }} réponse(s)</td>
-  <td>{{ sondage.date_creation|date:"d/m/Y" }}</td>
-
-  <!-- Lien de partage -->
-  <td>
-    <div class="input-group input-group-sm" style="min-width:260px">
-      <input type="text" class="form-control form-control-sm"
-             value="http://127.0.0.1:8000/reponses/{{ sondage.slug }}/repondre/"
-             id="lien-{{ sondage.slug }}" readonly>
-      <button class="btn btn-outline-secondary btn-sm"
-              onclick="copierLien('{{ sondage.slug }}')">
-        <i class="bi bi-clipboard"></i>
-      </button>
-    </div>
-  </td>
-
-  <td class="text-end">
-    <div class="btn-group btn-group-sm">
-      <a href="{% url 'editer_questions' sondage.slug %}" class="btn btn-outline-primary"><i class="bi bi-pencil"></i></a>
-      <a href="{% url 'resultats_sondage' sondage.slug %}" class="btn btn-outline-success"><i class="bi bi-graph-up"></i></a>
-      <a href="{% url 'dupliquer_sondage' sondage.slug %}" class="btn btn-outline-secondary"><i class="bi bi-files"></i></a>
-      <a href="{% url 'supprimer_sondage' sondage.slug %}" class="btn btn-outline-danger"><i class="bi bi-trash"></i></a>
-    </div>
-  </td>
-</tr>
-{% endfor %}
+            <tr>
+              <td>
+                <a href="{% url 'sondage_detail' sondage.slug %}" class="fw-semibold text-decoration-none text-dark">
+                  {{ sondage.titre }}
+                </a>
+              </td>
+              <td>
+                {% if sondage.est_ouvert %}
+                  <span class="badge badge-ouvert">Ouvert</span>
+                {% else %}
+                  <span class="badge badge-ferme">Fermé</span>
+                {% endif %}
+              </td>
+              <td>{{ sondage.reponse_set.count }} réponse(s)</td>
+              <td>{{ sondage.date_creation|date:"d/m/Y" }}</td>
+              <td>
+                <div class="input-group input-group-sm" style="width:200px; max-width:200px;">
+                  <input type="text" class="form-control form-control-sm"
+                         value="http://127.0.0.1:8000/reponses/{{ sondage.slug }}/repondre/"
+                         id="lien-{{ sondage.slug }}" readonly>
+                  <button class="btn btn-outline-secondary btn-sm"
+                          onclick="copierLien('{{ sondage.slug }}')">
+                    <i class="bi bi-clipboard"></i>
+                  </button>
+                </div>
+              </td>
+              <td class="text-end">
+                <div class="btn-group btn-group-sm">
+                  <a href="{% url 'editer_questions' sondage.slug %}" class="btn btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                  <a href="{% url 'resultats_sondage' sondage.slug %}" class="btn btn-outline-success"><i class="bi bi-graph-up"></i></a>
+                  <a href="{% url 'dupliquer_sondage' sondage.slug %}" class="btn btn-outline-secondary"><i class="bi bi-files"></i></a>
+                  <a href="{% url 'supprimer_sondage' sondage.slug %}" class="btn btn-outline-danger"><i class="bi bi-trash"></i></a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
@@ -120,23 +169,26 @@
       <div class="text-center py-5 text-muted">
         <i class="bi bi-inbox display-4 d-block mb-3"></i>
         <p>Vous n'avez pas encore créé de sondage.</p>
+        {% if user.role != 'participant' %}
         <a href="{% url 'creer_sondage' %}" class="btn btn-primary">
           <i class="bi bi-plus-circle me-2"></i>Créer mon premier sondage
         </a>
+        {% endif %}
       </div>
       {% endif %}
     </div>
   </div>
+  {% endif %}
 
 </div>
 {% endblock %}
+
 {% block extra_js %}
 <script>
 function copierLien(slug) {
   const input = document.getElementById('lien-' + slug);
   input.select();
   navigator.clipboard.writeText(input.value).then(() => {
-    // Feedback visuel temporaire
     const btn = input.nextElementSibling;
     btn.innerHTML = '<i class="bi bi-check-lg text-success"></i>';
     setTimeout(() => {
