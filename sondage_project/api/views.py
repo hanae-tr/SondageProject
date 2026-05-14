@@ -15,7 +15,6 @@ from .serializers import (
 )
 
 
-# ── Permissions personnalisées ─────────────────────────────────────────────────
 
 class EstCreateur(permissions.BasePermission):
     """Seul le créateur du sondage peut modifier/supprimer"""
@@ -24,8 +23,6 @@ class EstCreateur(permissions.BasePermission):
             return True
         return obj.createur == request.user
 
-
-# ── Sondages ──────────────────────────────────────────────────────────────────
 
 class SondageListCreateView(generics.ListCreateAPIView):
     """
@@ -41,7 +38,7 @@ class SondageListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         qs = Sondage.objects.filter(est_actif=True, est_prive=False)
-        # Filtres optionnels via query params
+      
         createur = self.request.query_params.get('createur')
         if createur:
             qs = qs.filter(createur__username=createur)
@@ -84,8 +81,6 @@ class SondageDetailView(generics.RetrieveUpdateDestroyAPIView):
         return {'request': self.request}
 
 
-# ── Questions ─────────────────────────────────────────────────────────────────
-
 class QuestionListCreateView(generics.ListCreateAPIView):
     """
     GET  /api/sondages/<slug>/questions/  → liste des questions
@@ -121,8 +116,6 @@ class QuestionDetailView(generics.RetrieveUpdateDestroyAPIView):
                 raise permissions.PermissionDenied()
         super().check_object_permissions(request, obj)
 
-
-# ── Statistiques (données pour Chart.js) ──────────────────────────────────────
 
 class StatsView(APIView):
     """
@@ -238,7 +231,7 @@ class StatsQuestionView(APIView):
         return Response(data)
 
 
-# ── Réponses ──────────────────────────────────────────────────────────────────
+
 
 class ReponseListView(generics.ListAPIView):
     """
@@ -254,7 +247,6 @@ class ReponseListView(generics.ListAPIView):
         return sondage.reponse_set.filter(est_complete=True).order_by('-date_envoi')
 
 
-# ── Profil utilisateur ─────────────────────────────────────────────────────────
 
 class ProfilView(generics.RetrieveUpdateAPIView):
     """
@@ -268,7 +260,6 @@ class ProfilView(generics.RetrieveUpdateAPIView):
         return self.request.user
 
 
-# ── Endpoint de santé ─────────────────────────────────────────────────────────
 
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])

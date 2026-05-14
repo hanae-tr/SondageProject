@@ -9,7 +9,7 @@ class Reponse(models.Model):
     """
     sondage = models.ForeignKey('surveys.Sondage', on_delete=models.CASCADE)
 
-    # FK vers Participant (classe mère) — couvre Utilisateur ET Anonyme
+    
     participant = models.ForeignKey(
         'accounts.Participant',
         on_delete=models.CASCADE,

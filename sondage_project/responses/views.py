@@ -16,7 +16,6 @@ except ImportError:
     OPENPYXL_AVAILABLE = False
 
 
-# ─── Helpers ──────────────────────────────────────────────────────────────────
 
 def get_ou_creer_anonyme(request):
     token = request.session.get('anonyme_token')
@@ -46,7 +45,7 @@ def a_deja_repondu(sondage, participant):
     ).exists()
 
 
-# ─── Répondre à un sondage ────────────────────────────────────────────────────
+
 
 def repondre_sondage(request, slug):
     sondage = get_object_or_404(Sondage, slug=slug)
@@ -102,7 +101,6 @@ def remerciement(request, slug):
     return render(request, 'responses/remerciement.html', {'sondage': sondage})
 
 
-# ─── Résultats & Statistiques ─────────────────────────────────────────────────
 
 def resultats_sondage(request, slug):
     sondage = get_object_or_404(Sondage, slug=slug)
@@ -126,7 +124,7 @@ def resultats_sondage(request, slug):
         if question.type_question in [Question.TYPE_CHOIX_UNIQUE, Question.TYPE_CHOIX_MULTIPLE]:
             choix_stats = []
             for choix in question.obtenir_choix():
-                # ✅ FIX : uniquement les réponses complètes
+               
                 count = choix.reponsedetail_set.filter(
                     reponse__est_complete=True
                 ).count()
@@ -189,7 +187,6 @@ def api_stats_question(request, question_id):
     return JsonResponse(data)
 
 
-# ─── Export CSV ───────────────────────────────────────────────────────────────
 
 def export_csv(request, slug):
     sondage = get_object_or_404(Sondage, slug=slug, createur=request.user)
@@ -220,7 +217,7 @@ def export_csv(request, slug):
     return response
 
 
-# ─── Export Excel ─────────────────────────────────────────────────────────────
+
 
 def export_excel(request, slug):
     if not OPENPYXL_AVAILABLE:

@@ -38,7 +38,7 @@
     </div>
   </div>
 
-  <!-- KPI -->
+ 
   <div class="row g-3 mb-4">
     <div class="col-6 col-md-3"><div class="kpi-card kpi-violet"><div class="fs-1 fw-bold">{{ total_reponses }}</div><div class="small opacity-75">Réponses</div></div></div>
     <div class="col-6 col-md-3"><div class="kpi-card kpi-bleu"><div class="fs-1 fw-bold">{{ stats_questions|length }}</div><div class="small opacity-75">Questions</div></div></div>
@@ -139,8 +139,7 @@
 
 {% block extra_js %}
 <script>
-/*var COLORS = ['#4F46E5','#0EA5E9','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899','#F97316'];*/
-/* APRÈS */
+
 var COLORS = ['#C0392B','#922B21','#333333','#555555','#E74C3C','#7B241C','#1a1a1a','#444444'];
 var ECHELLE_COLORS = ['#7B241C','#922B21','#C0392B','#E74C3C','#1a1a1a'];
 var charts = {};
@@ -290,7 +289,7 @@ grad.addColorStop(1,   '#1a1a1a');
   ctx.fillText('/ 5', cx, cy + 26);
 }
 
-// ── Dessiner toutes les barres canvas ─────────────────────────────────────
+
 function dessinerBarres() {
   document.querySelectorAll('.barre-canvas').forEach(function(canvas) {
     var pct = parseFloat(canvas.getAttribute('data-pct')) || 0;
@@ -299,19 +298,17 @@ function dessinerBarres() {
     var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, w, 14);
 
-    // Fond gris
+   
     ctx.fillStyle = '#EEF2FF';
     ctx.beginPath();
     ctx.roundRect(0, 0, w, 14, 7);
     ctx.fill();
 
-    // Barre colorée
+    
     if (pct > 0) {
       var fillW = Math.max(w * pct / 100, 8);
       var grad  = ctx.createLinearGradient(0, 0, fillW, 0);
-      /*grad.addColorStop(0, '#4F46E5');
-      grad.addColorStop(1, '#818CF8');/*
-      /* APRÈS */
+      
 grad.addColorStop(0, '#C0392B');
 grad.addColorStop(1, '#E74C3C');
       ctx.fillStyle = grad;

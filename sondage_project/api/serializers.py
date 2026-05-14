@@ -4,7 +4,6 @@ from responses.models import Reponse, ReponseDetail
 from accounts.models import Utilisateur
 
 
-# ── Choix ─────────────────────────────────────────────────────────────────────
 
 class ChoixSerializer(serializers.ModelSerializer):
     nb_reponses = serializers.SerializerMethodField()
@@ -17,7 +16,6 @@ class ChoixSerializer(serializers.ModelSerializer):
         return obj.compter_reponses()
 
 
-# ── Question ──────────────────────────────────────────────────────────────────
 
 class QuestionSerializer(serializers.ModelSerializer):
     choix = ChoixSerializer(many=True, read_only=True, source='choix_set')
@@ -31,7 +29,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         ]
 
 
-# ── Sondage (liste) ───────────────────────────────────────────────────────────
+
 
 class SondageListSerializer(serializers.ModelSerializer):
     createur        = serializers.StringRelatedField()
@@ -65,7 +63,6 @@ class SondageListSerializer(serializers.ModelSerializer):
         return f'/reponses/{obj.slug}/repondre/'
 
 
-# ── Sondage (détail avec questions) ──────────────────────────────────────────
 
 class SondageDetailSerializer(SondageListSerializer):
     questions    = QuestionSerializer(many=True, read_only=True, source='question_set')
@@ -78,7 +75,6 @@ class SondageDetailSerializer(SondageListSerializer):
         return obj.obtenir_statistiques()
 
 
-# ── Sondage (création/modification) ──────────────────────────────────────────
 
 class SondageCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -93,7 +89,6 @@ class SondageCreateSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 
-# ── Réponse ───────────────────────────────────────────────────────────────────
 
 class ReponseDetailSerializer(serializers.ModelSerializer):
     question_texte = serializers.CharField(source='question.texte', read_only=True)
@@ -119,7 +114,6 @@ class ReponseSerializer(serializers.ModelSerializer):
         return obj.get_participant_display()
 
 
-# ── Statistiques par question ─────────────────────────────────────────────────
 
 class StatsQuestionSerializer(serializers.Serializer):
     question_id   = serializers.IntegerField()
@@ -130,7 +124,6 @@ class StatsQuestionSerializer(serializers.Serializer):
     moyenne       = serializers.FloatField(required=False)
 
 
-# ── Utilisateur (profil public) ───────────────────────────────────────────────
 
 class UtilisateurSerializer(serializers.ModelSerializer):
     nb_sondages = serializers.SerializerMethodField()

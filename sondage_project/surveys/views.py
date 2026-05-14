@@ -6,7 +6,7 @@ from .models import Sondage, Question, Choix, ModèleSondage
 from .forms import SondageForm, QuestionForm, ChoixForm, MotDePasseSondageForm
 
 
-# ── Dashboard ─────────────────────────────────────────────────────────────────
+
 
 @login_required
 def dashboard(request):
@@ -22,7 +22,7 @@ def dashboard(request):
     })
 
 
-# ── Créer un sondage ──────────────────────────────────────────────────────────
+
 
 @login_required
 def creer_sondage(request):
@@ -39,7 +39,7 @@ def creer_sondage(request):
     return render(request, 'surveys/creer_sondage.html', {'form': form})
 
 
-# ── Modifier un sondage ───────────────────────────────────────────────────────
+
 
 @login_required
 def modifier_sondage(request, slug):
@@ -55,7 +55,6 @@ def modifier_sondage(request, slug):
     return render(request, 'surveys/modifier_sondage.html', {'form': form, 'sondage': sondage})
 
 
-# ── Supprimer un sondage ──────────────────────────────────────────────────────
 
 @login_required
 def supprimer_sondage(request, slug):
@@ -67,7 +66,7 @@ def supprimer_sondage(request, slug):
     return render(request, 'surveys/confirmer_suppression.html', {'sondage': sondage})
 
 
-# ── Dupliquer un sondage ──────────────────────────────────────────────────────
+
 
 @login_required
 def dupliquer_sondage(request, slug):
@@ -77,7 +76,7 @@ def dupliquer_sondage(request, slug):
     return redirect('modifier_sondage', slug=copie.slug)
 
 
-# ── Éditeur de questions ──────────────────────────────────────────────────────
+
 
 @login_required
 def editer_questions(request, slug):
@@ -106,7 +105,7 @@ def ajouter_question(request, slug):
                 ordre=int(ordre),
                 est_obligatoire=est_obligatoire,
             )
-            # Sauvegarder les choix envoyés
+            
             choix_textes = request.POST.getlist('choix[]')
             for i, ct in enumerate(choix_textes):
                 if ct.strip():
@@ -130,12 +129,12 @@ def supprimer_question(request, question_id):
     return redirect('editer_questions', slug=slug)
 
 
-# ── Vue publique d'un sondage ─────────────────────────────────────────────────
+
 
 def detail_sondage(request, slug):
     sondage = get_object_or_404(Sondage, slug=slug)
 
-    # Vérification mot de passe
+    
     if sondage.mode_passe:
         session_key = f'sondage_acces_{sondage.slug}'
         if not request.session.get(session_key):

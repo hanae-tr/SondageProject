@@ -77,7 +77,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
-            'charset': 'utf8',        # ← changer utf8mb4 en utf8
+        'charset': 'utf8',       
         },
         
     }

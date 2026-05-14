@@ -131,7 +131,7 @@ class Question(models.Model):
     ordre = models.IntegerField(default=0)
     est_obligatoire = models.BooleanField(default=True)
 
-    # Logique conditionnelle : cette question n'apparaît que si...
+   
     condition_question = models.ForeignKey(
         'self',
         on_delete=models.SET_NULL,

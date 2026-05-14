@@ -1,16 +1,4 @@
-/* SondageApp — styles personnalisés */
 
-/*:root {
-  --primary: #4F46E5;
-  --primary-light: #818CF8;
-  --secondary: #0EA5E9;
-  --accent: #F59E0B;
-  --dark: #1E1B4B;
-  --success: #10B981;
-  --danger: #EF4444;
-}*/
-
-/* APRÈS */
 :root {
   --primary: #1a1a1a;
   --primary-light: #444444;
@@ -19,7 +7,7 @@
   --dark: #000000;
 }
 
-/* Navbar */
+
 .navbar {
   background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
   box-shadow: 0 2px 20px rgba(79, 70, 229, 0.3);
@@ -27,7 +15,7 @@
 .navbar-brand { font-weight: 800; font-size: 1.4rem; letter-spacing: -0.5px; }
 .navbar-brand span { color: var(--accent); }
 
-/* Cards */
+
 .card {
   border: none;
   border-radius: 16px;
@@ -36,42 +24,33 @@
 }
 .card:hover { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); }
 
-/* Badges statut */
+
 .badge-ouvert  { background: #D1FAE5; color: #065F46; border-radius: 20px; padding: 4px 10px; font-size: 12px; }
 .badge-ferme   { background: #FEE2E2; color: #991B1B; border-radius: 20px; padding: 4px 10px; font-size: 12px; }
 
-/* Stat cards */
+
 .stat-card { border-left: 4px solid var(--primary) !important; }
 
-/* Question cards */
 .question-card { border-left: 3px solid var(--primary-light); transition: all 0.2s; }
 .question-card:hover { border-left-color: var(--primary); transform: translateX(3px); }
 
-/* Hero section */
-/*.hero {
-  background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 60%, var(--secondary) 100%);
-  color: white;
-  padding: 5rem 0;
-}*/
-/* APRÈS */
 .hero {
   background: #1a1a1a;
   color: white;
   padding: 5rem 0;
 }
 
-/* Boutons */
 .btn-primary { background: var(--primary); border-color: var(--primary); border-radius: 10px; }
 .btn-primary:hover { background: #4338CA; border-color: #4338CA; }
 .btn { border-radius: 10px; }
 
-/* Alerts */
+
 .alert { border-radius: 12px; border: none; }
 
-/* Footer */
+
 .footer { background: var(--dark); color: #94A3B8; padding: 2rem 0; margin-top: 4rem; }
 
-/* Formulaires */
+
 .form-control, .form-select {
   border-radius: 10px;
   border-color: #E2E8F0;
@@ -82,12 +61,11 @@
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
 
-/* Progress bars */
+
 .progress { border-radius: 50px; }
 .progress-bar { border-radius: 50px; }
 
-/* Table */
+
 .table-hover tbody tr:hover { background: rgba(79, 70, 229, 0.04); }
 
-/* Border dashed */
 .border-dashed { border: 2px dashed #CBD5E1 !important; }
